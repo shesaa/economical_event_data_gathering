@@ -47,6 +47,8 @@ class EconomicCalendarScrapper:
         self._maximum_scroll_to_load_()
         
         data_gathered = self._gathering_page_data_()
+
+        self.exit_chrome()
         
         return data_gathered
 
@@ -242,7 +244,11 @@ class EconomicCalendarScrapper:
 
     def save_data_to_csv(self, path: str, data: list):
         df = pd.DataFrame(data)
-        file_name = f'economic_calendar_{self.start_date}_to_{self.end_date}.csv'
+        file_name = f'economic_calendar_{self.start_date}_to_{self.end_date}.csv'.replace('/', '-')
         df.to_csv(path + file_name, index=False, encoding='utf-8-sig')
         print(f"Data extracted and saved to '{file_name}'.")
 
+    def exit_chrome(self):
+        self.driver.quit()
+        print("Chrome session ended!")
+        pass
